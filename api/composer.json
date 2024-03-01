@@ -12,6 +12,7 @@
         "nelmio/cors-bundle": "^2.2",
         "phpstan/phpdoc-parser": "^1.16",
         "runtime/frankenphp-symfony": "^0.2",
+        "supgeek-rod/faker-zh": "^1.0",
         "symfony/asset": "6.4.*",
         "symfony/console": "6.4.*",
         "symfony/dotenv": "6.4.*",
@@ -31,6 +32,7 @@
     },
     "require-dev": {
         "api-platform/schema-generator": "^5.0",
+        "hautelook/alice-bundle": "^2.13",
         "symfony/browser-kit": "6.4.*",
         "symfony/css-selector": "6.4.*",
         "symfony/debug-bundle": "6.4.*",

@@ -1,0 +1,21 @@
+\App\Entity\User:
+    user_{1..10}:
+        username: <name()>
+        password: 'Test1234'
+        role: "user"
+        
+\App\Entity\RecipeCategory:
+    category_{1..5}:
+        Name: <word()>
+        recipes: ['@recipe_*']
+      
+\App\Entity\Recipe:
+    recipe_{1..15}:
+        name: <name()>
+        ingredients: [ <name()> ]
+        instructions: <word()>
+        preparationTime: <dateTimeBetween('-1 week', 'now')>
+        difficulty: 'easy'
+        isPublic: 'yes'
+        category: '@category_*'
+
