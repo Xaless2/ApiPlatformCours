@@ -20,7 +20,9 @@ use Doctrine\ORM\Mapping as ORM;
         new GetCollection(),
         new Post(),
         new Patch()
-    ]
+    ],
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']],
 )]
 class User
 {
@@ -29,12 +31,15 @@ class User
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['user:read'])]
     #[ORM\Column(length: 255)]
     private ?string $Username = null;
 
+    #[Groups(['user:write'])]
     #[ORM\Column(length: 255)]
     private ?string $Password = null;
 
+    #[Groups(['user:read'])]
     #[ORM\Column(length: 255)]
     private ?string $role = null;
 
