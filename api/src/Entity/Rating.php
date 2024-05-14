@@ -9,6 +9,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\RatingRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RatingRepository::class)]
 #[ApiResource(
@@ -17,7 +18,9 @@ use Doctrine\ORM\Mapping as ORM;
         new GetCollection(),
         new Post(),
         new Patch()
-    ]
+    ],
+    normalizationContext: ['groups' => ['rating:read']],
+    denormalizationContext: ['groups' => ['rating:write']]
 )]
 class Rating
 {
@@ -27,15 +30,18 @@ class Rating
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['rating:read', 'rating:write'])]
     private ?float $Value = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['rating:read', 'rating:write'])]
     private ?string $Author = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['rating:read'])]
     private ?string $Recipe = null;
 
-    #[ORM\ManyToOne(inversedBy: 'ratings')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "ratings")]
     private ?User $author = null;
 
     public function getId(): ?int

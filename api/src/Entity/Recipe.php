@@ -13,12 +13,15 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RecipeRepository::class)]
 #[ApiResource(
+
     operations: [
         new Get(),
         new GetCollection(),
         new Post(),
         new Patch()
-    ]
+    ],
+    normalizationContext: ['groups' => ['recipe:read']],
+    denormalizationContext: ['groups' => ['recipe:write']]
 )]
 class Recipe
 {
@@ -28,24 +31,29 @@ class Recipe
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['rating:read', 'rating:write'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::ARRAY)]
     private array $ingredients = [];
 
     #[ORM\Column(length: 255)]
+    #[Groups(['recipe:read', 'recipe:write'])]
     private ?string $instructions = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
+    #[Groups(['recipe:read', 'recipe:write'])]
     private ?\DateTimeInterface $preparationTime = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['recipe:read', 'recipe:write'])]
     private ?string $difficulty = null;
 
     #[ORM\Column]
+    #[Groups(['recipe:read', 'recipe:write'])]
     private ?bool $isPublic = null;
 
-    #[ORM\ManyToOne(inversedBy: 'recipes')]
+    #[ORM\ManyToOne(targetEntity: 'Entity\RecipeCategory', inversedBy: 'recipes')]
     private ?RecipeCategory $category = null;
 
     public function getId(): ?int

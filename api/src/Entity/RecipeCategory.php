@@ -19,7 +19,10 @@ use Doctrine\ORM\Mapping as ORM;
         new GetCollection(),
         new Post(),
         new Patch()
-    ]
+    ],
+    normalizationContext: ['groups' => ['category:read']],
+    denormalizationContext: ['groups' => ['category:write']],
+    paginationEnabled: false,
 )]
 class RecipeCategory
 {
@@ -29,9 +32,11 @@ class RecipeCategory
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['category:read', 'category:write'])]
     private ?string $Name = null;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Recipe::class)]
+    #[Groups('category:read')]
     private Collection $recipes;
 
     public function __construct()
@@ -83,7 +88,6 @@ class RecipeCategory
     public function removeRecipe(Recipe $recipe): static
     {
         if ($this->recipes->removeElement($recipe)) {
-            // set the owning side to null (unless already changed)
             if ($recipe->getCategory() === $this) {
                 $recipe->setCategory(null);
             }

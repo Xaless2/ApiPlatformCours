@@ -18,7 +18,9 @@ use Doctrine\ORM\Mapping as ORM;
         new GetCollection(),
         new Post(),
         new Patch()
-    ]
+    ],
+    normalizationContext: ['groups' => ['comment:read']],
+    denormalizationContext: ['groups' => ['comment:write']]
 )]
 class Comment
 {
@@ -28,18 +30,21 @@ class Comment
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['comment:read', 'comment:write'])]
     private ?string $Content = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['comment:read', 'comment:write'])]
     private ?string $Author = null;
 
     #[ORM\Column]
+    #[Groups('comment:read')]
     private ?\DateTimeImmutable $CreateAt = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\ManyToOne(targetEntity: 'Entity\Recipe', inversedBy: 'comments')]
     private ?string $Recipe = null;
 
-    #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\ManyToOne(targetEntity: 'Entity\User',inversedBy: 'comments')]
     private ?User $author = null;
 
     public function getId(): ?int
