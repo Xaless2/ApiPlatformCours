@@ -41,10 +41,10 @@ class Comment
     #[Groups('comment:read')]
     private ?\DateTimeImmutable $CreateAt = null;
 
-    #[ORM\ManyToOne(targetEntity: 'Entity\Recipe', inversedBy: 'comments')]
-    private ?string $Recipe = null;
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Recipe', inversedBy: 'comments')]
+    private ?Recipe $Recipe = null;
 
-    #[ORM\ManyToOne(targetEntity: 'Entity\User',inversedBy: 'comments')]
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\User',inversedBy: 'comments')]
     private ?User $author = null;
 
     public function getId(): ?int

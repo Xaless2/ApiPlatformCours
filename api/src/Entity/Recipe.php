@@ -53,7 +53,7 @@ class Recipe
     #[Groups(['recipe:read', 'recipe:write'])]
     private ?bool $isPublic = null;
 
-    #[ORM\ManyToOne(targetEntity: 'Entity\RecipeCategory', inversedBy: 'recipes')]
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\RecipeCategory', inversedBy: 'recipes')]
     private ?RecipeCategory $category = null;
 
     public function getId(): ?int

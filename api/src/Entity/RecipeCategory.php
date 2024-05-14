@@ -35,11 +35,11 @@ class RecipeCategory
     #[Groups(['category:read', 'category:write'])]
     private ?string $Name = null;
 
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Recipe::class)]
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: 'App\Entity\Recipe')]
     #[Groups('category:read')]
     private Collection $recipes;
 
-    public function __construct()
+    public function __construct ()
     {
         $this->recipes = new ArrayCollection();
     }
